@@ -1,4 +1,4 @@
-function ResultDeck({ result, imagePreview }) {
+function ResultDeck({ result, imagePreview, enhancedPreview }) {
   if (!result) {
     return (
       <section className="card result-card muted">
@@ -53,12 +53,24 @@ function ResultDeck({ result, imagePreview }) {
 
         <article className="panel image-panel">
           <h3>Generated Visual Preview</h3>
-          {imagePreview ? (
-            <img src={imagePreview} alt="Uploaded product preview" />
+          {enhancedPreview ? (
+            <div className="preview-compare">
+              <figure className="preview-tile">
+                <figcaption>Original</figcaption>
+                <img src={imagePreview} alt="Original uploaded product" />
+              </figure>
+              <figure className="preview-tile">
+                <figcaption>Enhanced</figcaption>
+                <img src={enhancedPreview} alt="Enhanced product output" />
+              </figure>
+            </div>
           ) : (
             <div className="placeholder-box">No preview</div>
           )}
-          <p>Background cleanup and lifestyle variants are ready for export.</p>
+          <p>
+            Enhanced output applies contrast, clarity, and studio-style lighting for
+            listing readiness.
+          </p>
         </article>
       </div>
     </section>

@@ -98,6 +98,7 @@ input {
   margin-bottom: 1rem;
 }
 
+
 .brand-mark {
   font-family: "Fraunces", serif;
   font-size: 1.1rem;
@@ -327,6 +328,15 @@ button:disabled {
   position: relative;
   z-index: 2;
   animation: productFloat 3.6s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.scene-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .product-badge,
@@ -758,6 +768,25 @@ button:disabled {
   border: 1px solid rgba(140, 120, 174, 0.12);
 }
 
+.preview-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.preview-tile {
+  margin: 0;
+}
+
+.preview-tile figcaption {
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #897b9f;
+}
+
 .placeholder-box {
   min-height: 180px;
   border-radius: 16px;
@@ -787,8 +816,13 @@ button:disabled {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+
   .layout-grid,
   .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-compare {
     grid-template-columns: 1fr;
   }
 }
@@ -878,6 +912,7 @@ button:disabled {
   .product-strip {
     grid-template-columns: 1fr;
   }
+
 
   .hero-nav {
     top: auto;
@@ -1003,3 +1038,4 @@ button:disabled {
     transform: translateY(0);
   }
 }
+

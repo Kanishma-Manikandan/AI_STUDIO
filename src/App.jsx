@@ -3,61 +3,100 @@ import UploadPanel from "./components/UploadPanel";
 import PipelineTracker from "./components/PipelineTracker";
 import ResultDeck from "./components/ResultDeck";
 
-const mockResult = {
-  detectedProduct: "Handcrafted Soy Wax Candle",
-  dimensions: "8 cm x 8 cm x 10 cm",
-  weight: "280 g",
-  title:
-    "Handmade Lavender Soy Wax Candle - Long Burn Aromatherapy Jar for Home Decor",
-  description:
-    "A premium handcrafted soy wax candle infused with calming lavender notes. Designed for clean burning and long-lasting fragrance, this candle is ideal for bedrooms, meditation corners, and gifting. Eco-friendly wax blend, minimal soot, and reusable glass jar included.",
-  category: "Home & Kitchen > Home Decor > Candles",
-  compliance: [
-    "Label: ingredient list and net quantity required",
-    "Add flammability caution on outer box",
-    "No BIS mandate detected for this product type"
-  ],
-  price: "INR 349",
-  competitiveBand: "INR 299 - INR 399",
-  packaging: "Tuck-end carton, 9 x 9 x 12 cm"
+const RESULT_TEMPLATES = {
+  bottle: {
+    detectedProduct: "Insulated Water Bottle",
+    dimensions: "7 cm x 7 cm x 26 cm",
+    weight: "420 g",
+    title:
+      "Stainless Steel Insulated Water Bottle - Leakproof Sports Flask - 750ml",
+    description:
+      "A durable insulated water bottle designed for all-day hydration. Double-wall stainless steel body helps maintain temperature, while the leakproof cap and slim profile make it ideal for travel, gym, and office use.",
+    category: "Home & Kitchen > Kitchen & Dining > Water Bottles",
+    compliance: [
+      "Add capacity (ml) and material details on listing",
+      "Mention BPA-free claim only if validated",
+      "Include care instructions and warranty terms"
+    ],
+    price: "INR 699",
+    competitiveBand: "INR 499 - INR 899",
+    packaging: "Bottle carton with neck support, 8 x 8 x 28 cm"
+  },
+  mug: {
+    detectedProduct: "Ceramic Coffee Mug",
+    dimensions: "9 cm x 9 cm x 10 cm",
+    weight: "360 g",
+    title: "Premium Ceramic Coffee Mug - 350ml - Microwave Safe Tea Cup",
+    description:
+      "A modern ceramic mug built for daily coffee and tea moments. Comfortable grip, heat-resistant body, and clean finish make it perfect for home and office setups.",
+    category: "Home & Kitchen > Kitchen & Dining > Cups, Mugs & Saucers",
+    compliance: [
+      "Mention food-safe glaze details",
+      "Add microwave and dishwasher compatibility",
+      "Include quantity per pack"
+    ],
+    price: "INR 499",
+    competitiveBand: "INR 299 - INR 599",
+    packaging: "Mug-safe box with inserts, 11 x 11 x 12 cm"
+  },
+  candle: {
+    detectedProduct: "Handcrafted Soy Wax Candle",
+    dimensions: "8 cm x 8 cm x 10 cm",
+    weight: "280 g",
+    title:
+      "Handmade Lavender Soy Wax Candle - Long Burn Aromatherapy Jar for Home Decor",
+    description:
+      "A premium handcrafted soy wax candle infused with calming lavender notes. Designed for clean burning and long-lasting fragrance, this candle is ideal for bedrooms, meditation corners, and gifting.",
+    category: "Home & Kitchen > Home Decor > Candles",
+    compliance: [
+      "Label: ingredient list and net quantity required",
+      "Add flammability caution on outer box",
+      "No BIS mandate detected for this product type"
+    ],
+    price: "INR 349",
+    competitiveBand: "INR 299 - INR 399",
+    packaging: "Tuck-end carton, 9 x 9 x 12 cm"
+  },
+  pouch: {
+    detectedProduct: "Stand-up Snack Pouch",
+    dimensions: "14 cm x 4 cm x 22 cm",
+    weight: "90 g (pack)",
+    title: "Crunchy Millet Snack Pouch - Roasted - Travel Friendly Resealable Pack",
+    description:
+      "A shelf-ready snack pouch with clean front branding and practical storage. Suitable for quick bites, gifting packs, and modern retail shelves.",
+    category: "Grocery & Gourmet Foods > Snacks > Chips & Crisps",
+    compliance: [
+      "Display FSSAI number on artwork",
+      "Add net quantity and nutrition table",
+      "Mention allergen information if applicable"
+    ],
+    price: "INR 199",
+    competitiveBand: "INR 149 - INR 249",
+    packaging: "Primary pouch + mono-carton, 15 x 5 x 23 cm"
+  },
+  generic: {
+    detectedProduct: "Lifestyle Product",
+    dimensions: "10 cm x 10 cm x 12 cm",
+    weight: "300 g",
+    title: "Premium Lifestyle Product - Marketplace Ready Listing",
+    description:
+      "A versatile product listing generated from your uploaded image with SEO-ready content, packaging guidance, and launch pricing recommendations.",
+    category: "Home & Kitchen > Everyday Essentials",
+    compliance: [
+      "Add accurate material specification",
+      "Mention country of origin",
+      "Include size and usage details"
+    ],
+    price: "INR 399",
+    competitiveBand: "INR 299 - INR 499",
+    packaging: "Protective carton, 12 x 12 x 14 cm"
+  }
 };
 
 const TOTAL_STEPS = 7;
 const PRODUCT_SCENES = [
   {
-    name: "Ceramic Mug",
-    strap: "Photo to Listing",
-    desc:
-      "Convert a simple mug photo into marketplace-ready content with title, category, packaging fit, and launch price.",
-    badge: "Home & Kitchen",
-    price: "INR 499",
-    tone: "peach",
-    shape: "mug",
-    highlights: ["White background images", "SEO title draft", "Box size suggestion"]
-  },
-  {
-    name: "Glow Serum",
-    strap: "Packaging Intelligence",
-    desc:
-      "Detect bottle profile, generate compliance hints, and prepare launch visuals for beauty marketplace listings.",
-    badge: "Beauty",
-    price: "INR 799",
-    tone: "mint",
-    shape: "bottle",
-    highlights: ["Ingredient claim notes", "Lifestyle visual prompt", "Premium price band"]
-  },
-  {
-    name: "Soy Candle",
-    strap: "Visual Launch Kit",
-    desc:
-      "Generate warm branding copy, category mapping, and carton dimensions from one handcrafted candle image.",
-    badge: "Decor",
-    price: "INR 349",
-    tone: "lavender",
-    shape: "jar",
-    highlights: ["Aromatherapy copy", "Giftable packaging", "Amazon-ready bullets"]
-  },
-  {
+    id: "snack-pouch",
     name: "Snack Pouch",
     strap: "Market Fit Output",
     desc:
@@ -66,30 +105,83 @@ const PRODUCT_SCENES = [
     price: "INR 199",
     tone: "sky",
     shape: "pouch",
-    highlights: ["FSSAI prompt hints", "Shelf appeal visuals", "Competitive pricing"]
+    highlights: ["FSSAI prompt hints", "Shelf appeal visuals", "Competitive pricing"],
+    defaultImage: "/scene-images/01-snack-pouch.jpg"
+  },
+  {
+    id: "ceramic-mug",
+    name: "Ceramic Mug",
+    strap: "Photo to Listing",
+    desc:
+      "Convert a simple mug photo into marketplace-ready content with title, category, packaging fit, and launch price.",
+    badge: "Home & Kitchen",
+    price: "INR 499",
+    tone: "peach",
+    shape: "mug",
+    highlights: ["White background images", "SEO title draft", "Box size suggestion"],
+    defaultImage: "/scene-images/02-ceramic-mug.jpg"
+  },
+  {
+    id: "glow-serum",
+    name: "Glow Serum",
+    strap: "Packaging Intelligence",
+    desc:
+      "Detect bottle profile, generate compliance hints, and prepare launch visuals for beauty marketplace listings.",
+    badge: "Beauty",
+    price: "INR 799",
+    tone: "mint",
+    shape: "bottle",
+    highlights: ["Ingredient claim notes", "Lifestyle visual prompt", "Premium price band"],
+    defaultImage: "/scene-images/03-glow-serum.jpg"
+  },
+  {
+    id: "soy-candle",
+    name: "Soy Candle",
+    strap: "Visual Launch Kit",
+    desc:
+      "Generate warm branding copy, category mapping, and carton dimensions from one handcrafted candle image.",
+    badge: "Decor",
+    price: "INR 349",
+    tone: "lavender",
+    shape: "jar",
+    highlights: ["Aromatherapy copy", "Giftable packaging", "Amazon-ready bullets"],
+    defaultImage: "/scene-images/04-soy-candle.jpg"
   }
 ];
 
 function App() {
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [enhancedPreview, setEnhancedPreview] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [result, setResult] = useState(null);
+  const [pendingResult, setPendingResult] = useState(null);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [sceneDirection, setSceneDirection] = useState("next");
 
   useEffect(() => {
     if (!file) {
       setImagePreview("");
+      setEnhancedPreview("");
       return;
     }
 
     const objectUrl = URL.createObjectURL(file);
     setImagePreview(objectUrl);
 
-    return () => URL.revokeObjectURL(objectUrl);
+    let isDisposed = false;
+    enhanceImageFromFile(file).then((url) => {
+      if (!isDisposed) {
+        setEnhancedPreview(url || objectUrl);
+      }
+    });
+
+    return () => {
+      isDisposed = true;
+      URL.revokeObjectURL(objectUrl);
+    };
   }, [file]);
 
   useEffect(() => {
@@ -102,7 +194,7 @@ function App() {
           clearInterval(interval);
           setIsGenerating(false);
           setIsComplete(true);
-          setResult(mockResult);
+          setResult(pendingResult || RESULT_TEMPLATES.generic);
           return TOTAL_STEPS;
         }
         return next;
@@ -110,7 +202,7 @@ function App() {
     }, 600);
 
     return () => clearInterval(interval);
-  }, [isGenerating]);
+  }, [isGenerating, pendingResult]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -141,6 +233,7 @@ function App() {
     const selected = event.target.files?.[0] || null;
     setFile(selected);
     setResult(null);
+    setPendingResult(null);
     setCurrentStep(0);
     setIsComplete(false);
     setIsGenerating(false);
@@ -149,6 +242,7 @@ function App() {
   function handleGenerate() {
     if (!file) return;
     setResult(null);
+    setPendingResult(buildResultForFile(file, activeScene.shape));
     setCurrentStep(0);
     setIsComplete(false);
     setIsGenerating(true);
@@ -164,6 +258,8 @@ function App() {
     setSceneDirection(index > sceneIndex ? "next" : "prev");
     setSceneIndex(index);
   }
+
+  const activeSceneImage = activeScene.defaultImage || "";
 
   return (
     <main className="app-shell">
@@ -213,13 +309,26 @@ function App() {
             </div>
           </div>
 
-          <div key={`stage-${sceneIndex}`} className={`hero-stage scene-copy scene-copy-${sceneDirection}`}>
+          <div
+            key={`stage-${sceneIndex}`}
+            className={`hero-stage scene-copy scene-copy-${sceneDirection}`}
+          >
             <div className="stage-glow" />
             <div className="orbit orbit-a" />
             <div className="orbit orbit-b" />
             <div className="orbit orbit-c" />
 
             <div className={`product product-${activeScene.shape}`}>
+              {activeSceneImage ? (
+                <img
+                  className="scene-photo"
+                  src={activeSceneImage}
+                  alt={`${activeScene.name} showcase`}
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
+              ) : null}
               <span className="product-badge">{activeScene.badge}</span>
               <span className="product-price">{activeScene.price}</span>
             </div>
@@ -302,10 +411,85 @@ function App() {
           <PipelineTracker currentStep={currentStep} isComplete={isComplete} />
         </section>
 
-        <ResultDeck result={result} imagePreview={imagePreview} />
+        <ResultDeck
+          result={result}
+          imagePreview={imagePreview}
+          enhancedPreview={enhancedPreview || imagePreview}
+        />
       </div>
     </main>
   );
+}
+
+function inferProductKey(fileName, fallbackShape) {
+  const name = (fileName || "").toLowerCase();
+  if (/(bottle|flask|serum|water)/.test(name)) return "bottle";
+  if (/(mug|cup|coffee|tea)/.test(name)) return "mug";
+  if (/(candle|jar|wax)/.test(name)) return "candle";
+  if (/(snack|chips|pouch|pack)/.test(name)) return "pouch";
+
+  if (fallbackShape === "bottle") return "bottle";
+  if (fallbackShape === "mug") return "mug";
+  if (fallbackShape === "jar") return "candle";
+  if (fallbackShape === "pouch") return "pouch";
+  return "generic";
+}
+
+function buildResultForFile(selectedFile, fallbackShape) {
+  const key = inferProductKey(selectedFile?.name, fallbackShape);
+  return RESULT_TEMPLATES[key] || RESULT_TEMPLATES.generic;
+}
+
+function enhanceImageFromFile(selectedFile) {
+  return new Promise((resolve) => {
+    const sourceUrl = URL.createObjectURL(selectedFile);
+    const image = new Image();
+
+    image.onload = () => {
+      const maxDim = 1300;
+      const scale = Math.min(1, maxDim / Math.max(image.width, image.height));
+      const width = Math.max(1, Math.round(image.width * scale));
+      const height = Math.max(1, Math.round(image.height * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) {
+        URL.revokeObjectURL(sourceUrl);
+        resolve("");
+        return;
+      }
+
+      ctx.filter = "contrast(1.12) saturate(1.18) brightness(1.06)";
+      ctx.drawImage(image, 0, 0, width, height);
+
+      // Soft focus center light to mimic studio-style enhancement.
+      const gradient = ctx.createRadialGradient(
+        width * 0.5,
+        height * 0.4,
+        width * 0.1,
+        width * 0.5,
+        height * 0.5,
+        width * 0.9
+      );
+      gradient.addColorStop(0, "rgba(255,255,255,0.14)");
+      gradient.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      URL.revokeObjectURL(sourceUrl);
+      resolve(canvas.toDataURL("image/jpeg", 0.92));
+    };
+
+    image.onerror = () => {
+      URL.revokeObjectURL(sourceUrl);
+      resolve("");
+    };
+
+    image.src = sourceUrl;
+  });
 }
 
 export default App;
